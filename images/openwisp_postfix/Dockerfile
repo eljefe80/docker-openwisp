@@ -8,7 +8,7 @@ RUN apk add --no-cache --upgrade \
     apk add --no-cache \
             postfix~=3.7.10-r0 \
             rsyslog~=8.2204.1-r0	 \
-            tzdata~=2023d-r0 && \
+            tzdata~=2022c-r0 && \
     rm -rf /tmp/* /var/cache/apk/*
 
 CMD ["sh", "init_command.sh"]
