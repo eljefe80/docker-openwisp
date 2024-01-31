@@ -7,7 +7,7 @@ SHELL := /bin/bash
 default: compose-build
 
 # Pull
-USER = registry.gitlab.com/openwisp/docker-openwisp
+USER = ghcr.io/eljefe80/docker-openwisp/docker-openwisp
 TAG  = latest
 pull:
 	printf '\e[1;34m%-6s\e[m\n' "Downloading OpenWISP images..."
@@ -72,7 +72,7 @@ clean:
 				`docker images | grep openwisp/docker-openwisp | tr -s ' ' | cut -d ' ' -f 3` &> /dev/null
 
 # Production
-USER = registry.gitlab.com/openwisp/docker-openwisp
+USER = ghcr.io/eljefe80/docker-openwisp/docker-openwisp
 TAG  = latest
 start: pull
 	printf '\e[1;34m%-6s\e[m\n' "Starting Services..."
