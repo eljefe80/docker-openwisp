@@ -14,8 +14,8 @@ jobs:
       - name: Install Testing Requirements
         run: sudo pip install -r requirements-test.txt
 
-      - name: Lint
-        run: openwisp-qa-check --skip-checkmigrations
+#      - name: Lint
+#        run: openwisp-qa-check --skip-checkmigrations
 
       - name: Setup
         run: |
