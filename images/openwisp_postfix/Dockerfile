@@ -6,7 +6,7 @@ RUN apk add --no-cache --upgrade \
             cyrus-sasl~=2.1.28-r1	\
             cyrus-sasl-login~=2.1.28-r1 && \
     apk add --no-cache \
-            postfix~=3.7.3-r0 \
+            postfix~=3.7.10-r0 \
             rsyslog~=8.2204.1-r0	 \
             tzdata~=2023d-r0 && \
     rm -rf /tmp/* /var/cache/apk/*
