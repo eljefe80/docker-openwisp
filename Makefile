@@ -86,7 +86,7 @@ stop:
 	docker-compose down --remove-orphans &> /dev/null
 
 # Publish
-USER = registry.gitlab.com/openwisp/docker-openwisp
+USER = ghcr.io/eljefe80/docker-openwisp
 TAG  = latest
 SKIP_BUILD = false
 SKIP_TESTS = false
