@@ -12,7 +12,7 @@ import os
 
 import django
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'openwisp.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'openwisp2.settings')
 django.setup()
 
 
