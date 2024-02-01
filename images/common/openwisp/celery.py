@@ -5,7 +5,7 @@ from celery.schedules import crontab
 from django.utils.timezone import timedelta
 from openwisp.utils import env_bool
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'openwisp2.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'openwisp.settings')
 
 radius_schedule, topology_schedule, monitoring_schedule = {}, {}, {}
 task_routes = {}
