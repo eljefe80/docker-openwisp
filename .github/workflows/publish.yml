@@ -48,5 +48,5 @@ jobs:
       # publishing to Docker Hub
       - name: Build & Publish to GitLab Container Registry
         run: |
-          make base-build
+          make compose-build
           make publish TAG=edge SKIP_BUILD=false SKIP_TESTS=true
