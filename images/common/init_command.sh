@@ -11,7 +11,7 @@ if [ "$MODULE_NAME" = 'dashboard' ]; then
 		python manage.py check --deploy --tag geocoding
 	fi
 	echo $PATH
-	export PATH=$PATH:$(PWD)
+	export PATH=$PATH:$(pwd)
 	echo $PATH
 	python services.py database redis
 	python manage.py migrate --noinput
