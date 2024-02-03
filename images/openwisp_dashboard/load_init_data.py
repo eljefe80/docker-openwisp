@@ -9,9 +9,11 @@ Load initial data before starting the server.
 
 import json
 import os
+import sys
 
 import django
 
+print("sys path:", sys.path)
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'openwisp.settings')
 django.setup()
 
