@@ -1,6 +1,8 @@
 import os
 import sys
 
+print("sys path:", sys.path)
+
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "openwisp.settings")
 
