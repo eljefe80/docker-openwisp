@@ -3,9 +3,8 @@ FROM linuxserver/wireguard:latest
 
 WORKDIR /opt/openwisp
 
-RUN apt update && \
-    apt install -y sudo network-manager cron redis-tools wget && \
-    apt autoclean
+RUN apk update && \
+    apk add -y sudo network-manager cron redis-tools wget
 
 # Remove services from the base image
 RUN rm /etc/cont-init.d/40-confs && \
