@@ -4,7 +4,7 @@ set -e
 source utils.sh
 
 init_conf
-
+env
 # Start services
 if [ "$MODULE_NAME" = 'dashboard' ]; then
 	if [ "$OPENWISP_GEOCODING_CHECK" = 'True' ]; then
