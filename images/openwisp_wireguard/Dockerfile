@@ -16,6 +16,7 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN chown -R openwisp:root /opt/openwisp
 
 COPY --chown=openwisp:root ./openwisp_wireguard/update_wireguard.sh \
+    ./openwisp_wireguard/update_vxlan.py \
     ./common/init_command.sh \
     ./common/utils.sh \
     ./common/services.py /opt/openwisp/
