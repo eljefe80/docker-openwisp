@@ -7,8 +7,8 @@ RUN apk update && \
     apk add sudo networkmanager redis wget
 
 # Remove services from the base image
-RUN rm /etc/cont-init.d/40-confs && \
-    rm -r /etc/services.d/wireguard
+RUN rm -f /etc/cont-init.d/40-confs && \
+    rm -rf /etc/services.d/wireguard
 RUN useradd --system --password '' --create-home --shell /bin/bash \
    --gid root --groups sudo --uid 1001 openwisp
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
