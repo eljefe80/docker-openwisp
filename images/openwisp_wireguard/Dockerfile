@@ -10,7 +10,8 @@ RUN apk update && \
 RUN rm -f /etc/cont-init.d/40-confs && \
     rm -rf /etc/services.d/wireguard
 RUN useradd --system --password '' --create-home --shell /bin/bash \
-   --gid root --groups sudo --uid 1001 openwisp
+   --gid root --groups wheel --uid 1001 openwisp
+RUN echo '%wheel ALL=(ALL) ALL' > /etc/sudoers.d/wheel
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN chown -R openwisp:root /opt/openwisp
 
