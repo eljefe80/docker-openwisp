@@ -114,7 +114,7 @@ update_config() {
 	export VXLAN_IPV4_METHOD="{{ openwisp2_wireguard_vxlan_ipv4_method }}" \
 		VXLAN_IPV6_METHOD="{{ openwisp2_wireguard_vxlan_ipv6_method }}"
 	if [ -e "$CONF_DIR/vxlan.json" ]; then
-		"$CONF_DIR/update_vxlan.py" "$CONF_DIR/vxlan.json"
+		sudo "$CONF_DIR/update_vxlan.py" "$CONF_DIR/vxlan.json"
 		mv -f "$CONF_DIR/vxlan.json" "$_APPLIED_CONF_DIR/vxlan.json"
 	fi
 }
