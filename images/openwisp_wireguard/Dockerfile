@@ -4,7 +4,7 @@ FROM linuxserver/wireguard:latest
 WORKDIR /opt/openwisp
 
 RUN apk update && \
-    apk add sudo network-manager cron redis-tools wget
+    apk add sudo networkmanager redis wget
 
 # Remove services from the base image
 RUN rm /etc/cont-init.d/40-confs && \
