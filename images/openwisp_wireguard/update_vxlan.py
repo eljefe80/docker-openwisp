@@ -5,6 +5,8 @@ import subprocess
 import sys
 import os
 
+import pyroute2
+
 VXLAN_IPV4_METHOD = os.environ.get('VXLAN_IPV4_METHOD', 'link-local')
 VXLAN_IPV6_METHOD = os.environ.get('VXLAN_IPV6_METHOD', 'link-local')
 
@@ -49,6 +51,49 @@ class Base(object):
             raise ValueError(stderr)
         return stdout.decode('utf8').strip()
 
+def get_attr(pyroute2_obj, attr_name):
+    rule_attrs = pyroute2_obj.get('attrs', [])
+    for attr in (attr for attr in rule_attrs if attr[0] == attr_name):
+        return attr[1]
+
+class Native():
+    @classmethod
+    def __init__(cls, iproute):
+        cls.ipr = iproute
+    @classmethod
+    def list_connections(cls, conntype=None):
+        connections = []
+        for link in cls.ipr.get_links():
+            if type is None or get_attr(link, "IFLA_INFO_KIND") == conntype:
+                connections.append(link)
+        return connections
+
+    @classmethod
+    def get_local_vxlan_tunnels(cls):
+        peers = {}
+        vxlan_connections = cls.list_connections(conntype='vxlan')
+        for connection in vxlan_connections:
+            peers[get_attr(connection, "IFLA_IFNAME")] = {
+                'remote': get_attr(connection, "IFLA_VXLAN_GROUP"),
+                'vni': get_attr(connection, "IFLA_VXLAN_ID")
+            }
+        return peers
+
+    @classmethod
+    def add_connection(cls, ifname, vni, remote):
+        f'sudo nmcli connection add type vxlan ifname {ifname} '
+        f'id {vni} remote {remote} destination-port 4789 '
+        f'ipv4.method {VXLAN_IPV4_METHOD} ipv6.method {VXLAN_IPV6_METHOD}'
+        cls.ipr.link('add', ifname=ifname, kind='vxlan', vxlan_id=vni, vxlan_group=remote)
+
+    @classmethod
+    def edit_connection(cls, connection, vxlan_id, remote):
+        f'sudo nmcli connection modify {connection} vxlan.id {vni} vxlan.remote {remote}'
+        cls.ipr.link('set', ifname=connection, vxlan_id=vxlan_id, vxlan_group=remote)
+
+    @classmethod
+    def delete_connection(cls, ifname):
+        cls.ipr.link("del", index=self.ipr.link_lookup(ifname=ifname)[0])
 
 class Nmcli(Base):
     @classmethod
@@ -140,12 +185,15 @@ class Bridge(Base):
         )
 
 
-local_tunnels = Nmcli.get_local_vxlan_tunnels()
 
+#  local_tunnels = Nmcli.get_local_vxlan_tunnels()
+ipr = pyroute2.IPRoute()
+native = Native(ipr)
+local_tunnels = native.get_local_vxlan_tunnels()
 
 for connection_name in local_tunnels.keys():
     if connection_name not in remote_tunnels:
-        Nmcli.delete_connection(connection_name)
+        native.delete_connection(connection_name)
         print(f'Removed {connection_name}')
 
 for connection_name, tunnel_data in remote_tunnels.items():
@@ -155,12 +203,12 @@ for connection_name, tunnel_data in remote_tunnels.items():
     if not interface:
         interface = f'vxlan{vni}'
     if connection_name not in local_tunnels:
-        Nmcli.add_connection(interface, vni, remote)
+        native.add_connection(interface, vni, remote)
         print(f'Added {connection_name}')
     elif tunnel_data == local_tunnels[connection_name]:
         print(f'Skipping {connection_name}, already up to date')
     else:
-        Nmcli.edit_connection(connection_name, vni, remote)
+        native.edit_connection(connection_name, vni, remote)
         print(f'Updated {connection_name}')
 
     local_vxlan_peers = Bridge.list_vxlan_peers(interface=interface)

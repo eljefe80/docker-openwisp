@@ -4,9 +4,10 @@ FROM linuxserver/wireguard:v1.0.20210914-ls74
 WORKDIR /opt/openwisp
 
 RUN apt update && \
-    apt install -y sudo network-manager cron redis-tools wget && \
+    apt install -y sudo network-manager cron redis-tools wget python3-pip && \
     apt autoclean
 
+RUN pip install pyroute2
 # Remove services from the base image
 RUN rm /etc/cont-init.d/40-confs && \
     rm -r /etc/services.d/wireguard
