@@ -1,17 +1,17 @@
 # hadolint ignore=DL3007
-FROM linuxserver/wireguard:latest
+FROM linuxserver/wireguard:v1.0.20210914-ls74
 
 WORKDIR /opt/openwisp
 
-RUN apk update && \
-    apk add sudo networkmanager redis wget python3
+RUN apt update && \
+    apt install -y sudo network-manager cron redis-tools wget && \
+    apt autoclean
 
 # Remove services from the base image
-RUN rm -f /etc/cont-init.d/40-confs && \
-    rm -rf /etc/services.d/wireguard
+RUN rm /etc/cont-init.d/40-confs && \
+    rm -r /etc/services.d/wireguard
 RUN useradd --system --password '' --create-home --shell /bin/bash \
-   --gid root --groups wheel --uid 1001 openwisp
-RUN echo '%wheel ALL=(ALL) ALL' > /etc/sudoers.d/wheel
+   --gid root --groups sudo --uid 1001 openwisp
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN chown -R openwisp:root /opt/openwisp
 
@@ -20,7 +20,7 @@ COPY --chown=openwisp:root ./openwisp_wireguard/update_wireguard.sh \
     ./common/utils.sh \
     ./common/services.py /opt/openwisp/
 
-CMD ["bash", "-x", "init_command.sh"]
+CMD ["bash", "init_command.sh"]
 
 EXPOSE 51820
 
