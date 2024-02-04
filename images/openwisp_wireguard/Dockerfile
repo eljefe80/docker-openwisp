@@ -20,7 +20,7 @@ COPY --chown=openwisp:root ./openwisp_wireguard/update_wireguard.sh \
     ./common/utils.sh \
     ./common/services.py /opt/openwisp/
 
-CMD ["bash", "-x", "init_command.sh"]
+CMD ["init_command.sh"]
 
 EXPOSE 51820
 
