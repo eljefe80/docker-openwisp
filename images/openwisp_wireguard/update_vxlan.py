@@ -85,7 +85,7 @@ class Native():
         f'id {vni} remote {remote} destination-port 4789 '
         f'ipv4.method {VXLAN_IPV4_METHOD} ipv6.method {VXLAN_IPV6_METHOD}'
         cls.ipr.link('add', ifname=ifname, kind='vxlan', vxlan_id=vni, vxlan_group=remote)
-        cls.ipr.link('set', index=self.ipr.link_lookup(ifname=ifname)[0], state='up')
+        cls.ipr.link('set', index=cls.ipr.link_lookup(ifname=ifname)[0], state='up')
     @classmethod
     def edit_connection(cls, connection, vxlan_id, remote):
         f'sudo nmcli connection modify {connection} vxlan.id {vni} vxlan.remote {remote}'
