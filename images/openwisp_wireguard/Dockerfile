@@ -20,7 +20,7 @@ COPY --chown=openwisp:root ./openwisp_wireguard/update_wireguard.sh \
     ./common/init_command.sh \
     ./common/utils.sh \
     ./common/services.py /opt/openwisp/
-RUN chmod +x ./openwisp_wireguard/update_vxlan.py
+RUN chmod +x /opt/openwisp/openwisp_wireguard/update_vxlan.py
 
 CMD ["bash", "init_command.sh"]
 
