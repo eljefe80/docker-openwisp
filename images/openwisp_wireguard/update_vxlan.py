@@ -178,6 +178,19 @@ class Bridge(Base):
         )
 
     @classmethod
+    def add_bridge(cls, bridge):
+        cls._exec_command(
+            f'sudo ip link add name {bridge} type bridge'
+            f'sudo ip link add dev {bridge}'
+        )
+
+    @classmethod
+    def add_bridge_interface(cls, interface, bridge):
+        cls._exec_command(
+            f'sudo ip link set dev {interface} master {bridge}'
+        )
+
+    @classmethod
     def remove_vxlan_peer(cls, peer_ip, interface):
         cls._exec_command(
             'sudo bridge fdb del to 00:00:00:00:00:00'
@@ -190,6 +203,8 @@ class Bridge(Base):
 ipr = pyroute2.IPRoute()
 native = Native(ipr)
 local_tunnels = native.get_local_vxlan_tunnels()
+br0 = 'br0'
+Bridge.add_bridge(br0)
 
 for connection_name in local_tunnels.keys():
     if connection_name not in remote_tunnels:
@@ -219,6 +234,7 @@ for connection_name, tunnel_data in remote_tunnels.items():
             Bridge.add_vxlan_peer(peer['remote'], interface)
             print(f'Added {peer["remote"]} to {interface}')
         remote_vxlan_peers.append(peer['remote'])
+        Bridge.add_bridge_interface(interface, br0)
     # Remove peers
     for peer in local_vxlan_peers:
         if peer not in remote_vxlan_peers:
