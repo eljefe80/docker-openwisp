@@ -237,9 +237,10 @@ for connection_name, tunnel_data in remote_tunnels.items():
             Bridge.add_vxlan_peer(peer['remote'], interface)
             print(f'Added {peer["remote"]} to {interface}')
         remote_vxlan_peers.append(peer['remote'])
-        Bridge.add_bridge_interface(interface, br0)
     # Remove peers
     for peer in local_vxlan_peers:
         if peer not in remote_vxlan_peers:
             Bridge.remove_vxlan_peer(peer, interface)
             print(f'Removed {peer} from {interface}')
+    Bridge.add_bridge_interface(connection_name, br0)
+
