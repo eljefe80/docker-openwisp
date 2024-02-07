@@ -206,7 +206,7 @@ class Bridge(Base):
 ipr = pyroute2.IPRoute()
 native = Native(ipr)
 local_tunnels = native.get_local_vxlan_tunnels()
-br0 = 'br0'
+br0 = 'br-vxlan'
 Bridge.add_bridge(br0)
 
 for connection_name in local_tunnels.keys():
