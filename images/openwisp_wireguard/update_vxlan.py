@@ -43,6 +43,7 @@ for tunnel in tunnels:
 class Base(object):
     @classmethod
     def _exec_command(cls, command):
+        print(command)
         process = subprocess.Popen(
             command.split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
@@ -181,7 +182,7 @@ class Bridge(Base):
     def add_bridge(cls, bridge):
         cls._exec_command(
             f'sudo ip link add name {bridge} type bridge'
-            f'sudo ip link add dev {bridge}'
+            f'sudo ip link set dev {bridge} up'
         )
 
     @classmethod
