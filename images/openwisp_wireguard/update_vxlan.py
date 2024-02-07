@@ -180,9 +180,9 @@ class Bridge(Base):
 
     @classmethod
     def add_bridge(cls, bridge):
-        cls._exec_command(
-            f'sudo ip link add name {bridge} type bridge'
-        )
+#        cls._exec_command(
+#            f'sudo ip link add name {bridge} type bridge'
+#        )
         cls._exec_command(
             f'sudo ip link set dev {bridge} up'
         )
