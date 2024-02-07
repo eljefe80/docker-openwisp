@@ -242,5 +242,5 @@ for connection_name, tunnel_data in remote_tunnels.items():
         if peer not in remote_vxlan_peers:
             Bridge.remove_vxlan_peer(peer, interface)
             print(f'Removed {peer} from {interface}')
-    Bridge.add_bridge_interface(connection_name, br0)
+    Bridge.add_bridge_interface(interface, br0)
 
