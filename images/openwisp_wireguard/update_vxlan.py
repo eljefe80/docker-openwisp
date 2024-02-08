@@ -232,6 +232,8 @@ for connection_name, tunnel_data in remote_tunnels.items():
     local_vxlan_peers = Bridge.list_vxlan_peers(interface=interface)
     remote_vxlan_peers = [remote]
     # Add peers
+    print("Tunnel Data", tunnel_data)
+    print("local_vxlan_peers", local_vxlan_peers)
     for peer in tunnel_data[1:]:
         if peer['remote'] not in local_vxlan_peers:
             Bridge.add_vxlan_peer(peer['remote'], interface)
